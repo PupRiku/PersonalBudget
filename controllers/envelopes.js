@@ -3,13 +3,33 @@ const db = require("../config/db");
 const { createId, findById, deleteById } = require("../helpers/db-helpers");
 const router = require("../routes/envelopes")
 
-// @desc            Get all Envelopes
-// @route           GET /api/v1/envelopes
+// @desc        Get all Envelopes
+// @route       GET /api/v1/envelopes
 exports.getEnvelopes = async (req, res, next) => {
     try {
         const envelopes = await db;
         res.status(200).send(envelopes);
-    } catch (err) {
-        res.status(400).send(err);
+    } catch (e) {
+        res.status(400).send(e);
+    }
+}
+
+// @desc		Get an Envelopes
+// @route		GET /api/v1/envelopes/:id
+exports.getEnvelopesById = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const envelopes = await db;
+        const envelope = findById(envelopes, id);
+
+        if(!envelope) {
+            return res.status(404).send({
+                message: "Envelope Not Found",
+            });
+        }
+
+        return res.status(200).send(envelope);
+    } catch (e) {
+        res.status(500).send(e);
     }
 }

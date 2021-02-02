@@ -1,7 +1,10 @@
 const express = require("express");
 const router = express.Router();
 
-const { getEnvelopes } = require("../controllers/envelopes");
+const {
+    getEnvelopes,
+    getEnvelopesById
+} = require("../controllers/envelopes");
 
 /**
  * @swagger
@@ -9,7 +12,7 @@ const { getEnvelopes } = require("../controllers/envelopes");
  *  get:
  *      summary: Get all envelopes
  *      produces:
- *          - applicationm/json
+ *          - application/json
  *      tags:
  *          - Envelopes
  *      responses:
@@ -18,5 +21,31 @@ const { getEnvelopes } = require("../controllers/envelopes");
  * 
  */
 router.get("/", getEnvelopes);
+
+/**
+ * @swagger
+ * /api/v1/envelopes/{id}:
+ *  get:
+ *      summary: Get an envelopes
+ *      produces:
+ *          - application/json
+ *      tags:
+ *          - Envelopes
+ *      parameters:
+ *          -in: path
+ *          -name: id
+ *          -description: envelope id
+ *          -type: integer
+ *          -required: true
+ *          -example: 1
+ *      responses:
+ *          "200":
+ *              description: Returns an envelope along with its data
+ *          "404":
+ *              description: User not found
+ *          "500":
+ *              description: Internal server error
+ */
+router.get("/:id", getEnvelopesById);
 
 module.exports = router;
