@@ -33,3 +33,22 @@ exports.getEnvelopesById = async (req, res) => {
         res.status(500).send(e);
     }
 }
+
+// @desc		Create an Envelope
+// @route		POST /api/v1/envelopes
+exports.addEnvelope = async (req, res) => {
+    try {
+        const { title, budget } = req.body;
+        const envelopes = await db;
+        const newId = createId(envelopes);
+        const newEnvelope = {
+            id: newId,
+            title,
+            budget,
+        };
+        envelopes.push(newEnvelope);
+        res.status(201).send(newEnvelope);
+    } catch (e) {
+        res.status(500).send(err);
+    }
+};

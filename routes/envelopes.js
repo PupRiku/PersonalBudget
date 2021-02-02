@@ -3,7 +3,8 @@ const router = express.Router();
 
 const {
     getEnvelopes,
-    getEnvelopesById
+    getEnvelopesById,
+    addEnvelope,
 } = require("../controllers/envelopes");
 
 /**
@@ -47,5 +48,37 @@ router.get("/", getEnvelopes);
  *              description: Internal server error
  */
 router.get("/:id", getEnvelopesById);
+
+/**
+ * @swagger
+ * /api/v1/envelopes:
+ *  post:
+ *      summary: Creates a new envelope
+ *      produces:
+ *          - application/json
+ *      tags:
+ *          - Envelopes
+ *      requestBody:
+ *          description: Data for new envelope
+ *          required: true
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      type: object
+ *                      properties:
+ *                          title:
+ *                              type: string
+ *                          budget:
+ *                              type: integer
+ *                      example:
+ *                          title: Scuba lessons
+ *                          budget: 300
+ *      responses:
+ *          "201":
+ *              description: Returns created envelope
+ *          "500":
+ *              description: Internal server error
+ */
+router.post("/", addEnvelope);
 
 module.exports = router;
