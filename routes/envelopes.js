@@ -5,6 +5,7 @@ const {
     getEnvelopes,
     getEnvelopesById,
     addEnvelope,
+    deleteEnvelope,
 } = require("../controllers/envelopes");
 
 /**
@@ -80,5 +81,31 @@ router.get("/:id", getEnvelopesById);
  *              description: Internal server error
  */
 router.post("/", addEnvelope);
+
+/**
+ * @swagger
+ * /api/v1/envelopes/{id}:
+ *    delete:
+ *      summary: Deletes an individual envelope
+ *      produces:
+ *        - application/json
+ *      tags:
+ *        - Envelopes
+ *      parameters:
+ *        - in: path
+ *          name: id
+ *          description: Envelope ID to delete
+ *          type: integer
+ *          required: true
+ *          example: 1
+ *      responses:
+ *        "204":
+ *          description: Envelope deleted
+ *        "500":
+ *          description: Internal server error
+ *        "404":
+ *          description: Envelope not found
+ */
+router.delete("/:id", deleteEnvelope);
 
 module.exports = router;
